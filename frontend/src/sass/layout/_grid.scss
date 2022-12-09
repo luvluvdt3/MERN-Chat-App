@@ -1,0 +1,11 @@
+.row{
+    display: flex;
+    width: 100%;
+}
+
+// divide screen into 12 columns 
+@for $i from 1 through 12{
+    .col-#{$i}{
+         width: 100%/12*$i;
+    }
+}
