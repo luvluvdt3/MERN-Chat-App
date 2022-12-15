@@ -124,6 +124,12 @@ const Messenger = () => {
     useEffect(() => { //everytime that receiver sees a new message
         if (message.length > 0) {
             if (message[message.length - 1].senderId !== myInfo.id && message[message.length - 1].status !== 'seen') { //check that user is receiver and the message in database is not yet "seen"
+                dispatch({
+                    type: 'UPDATE', //activate every time currentfriend changes
+                    payload: {
+                        id: currentfriend._id
+                    }
+                })
                 socket.current.emit('seen', { senderId: currentfriend._id, reseverId: myInfo.id }) //send the seen message info to socket
                 dispatch(seenMessage({ _id: message[message.length - 1]._id })) //use seenMessage action to update the lastest message's status in the database into "seen"
             }
@@ -190,12 +196,7 @@ const Messenger = () => {
     useEffect(() => {
         dispatch(getMessage(currentfriend._id));
         if (friends.length > 0) { //if this user has friend
-            dispatch({
-                type: 'UPDATE', //activate every time currentfriend changes
-                payload: {
-                    id: currentfriend._id
-                }
-            })
+           
         }
     }, [currentfriend?._id]); //will get updated automatically every time current friend changes (I love u, useEffect)
 
