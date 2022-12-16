@@ -302,6 +302,7 @@ const Messenger = () => {
                             </div>
                         </div>
 
+                        {/* The small vertial scroll list of active friends */}
                         <div className='active-friends'>
                             {
                                 activeUser && activeUser.length > 0 ? activeUser.map(u => <ActiveFriend setCurrentFriend={setCurrentFriend} user={u} />) : ''
@@ -313,7 +314,7 @@ const Messenger = () => {
                             {
                                 friends && friends.length > 0 ? friends.map((fd) => <div onClick={() => setCurrentFriend(fd.fndInfo)} className={currentfriend._id === fd.fndInfo._id ? 'hover-friend active' : 'hover-friend'}>
                                     {/* if is current friend that user is looking at -> class=hover-friend-active. which gives it gray background */}
-                                    <Friends myId={myInfo.id} friend={fd} />
+                                    <Friends myId={myInfo.id} friend={fd} activeUser= {activeUser}/>
                                 </div>) : 'No Friend'
                             }
                             {/* If there is friend then show them though component Friends, if not show text "No Friend" */}
