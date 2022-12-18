@@ -1,14 +1,17 @@
 .friends{
     display: flex;
     flex-direction: column;
-    background-color: #ffffff;
+    background-color: var(--border-color); //no longer white but get the color of --border-color in _reset.scss either in theme or :root -> updated automatically all together
+    // (In /sass/base/_reset.scss : .messager.theme-> dark mode
+    //                              :root -> normal mode )
+
     height: 100%;     
     overflow-y: auto;
     &::-webkit-scrollbar{
         display: none;
     }
     .hover-friend.active{
-        background-color: #dfdfdf;
+        background-color: var(--search-bg);
     }
     .hover-friend{
         cursor: pointer;

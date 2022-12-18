@@ -1,10 +1,11 @@
-import { FRIEND_GET_SUCCESS, MESSAGE_GET_SUCCESS, MESSAGE_SEND_SUCCESS, SOCKET_MESSAGE, UPDATE_FRIEND_MESSAGE, MESSAGE_SEND_SUCCESS_CLEAR, SEEN_MESSAGE, DELIVARED_MESSAGE, UPDATE, MESSAGE_GET_SUCCESS_CLEAR,SEEN_ALL } from "../types/messengerType";
+import { FRIEND_GET_SUCCESS, MESSAGE_GET_SUCCESS, MESSAGE_SEND_SUCCESS, SOCKET_MESSAGE, UPDATE_FRIEND_MESSAGE, MESSAGE_SEND_SUCCESS_CLEAR, SEEN_MESSAGE, DELIVARED_MESSAGE, UPDATE, MESSAGE_GET_SUCCESS_CLEAR, SEEN_ALL } from "../types/messengerType";
 
 const messengerState = {
     friends: [],
     message: [],
     mesageSendSuccess: false,
-    message_get_success: false
+    message_get_success: false,
+    themeMood: ''
 }
 
 export const messengerReducer = (state = messengerState, action) => {
@@ -88,12 +89,19 @@ export const messengerReducer = (state = messengerState, action) => {
         }
     }
 
-    if(type === 'SEEN_ALL'){ 
-        const index = state.friends.findIndex(f=>f.fndInfo._id === payload.reseverId); //find the friend that received and has seen your message
+    if (type === 'SEEN_ALL') {
+        const index = state.friends.findIndex(f => f.fndInfo._id === payload.reseverId); //find the friend that received and has seen your message
         state.friends[index].msgInfo.status = 'seen'; //update the message as seen
         return {
-             ...state
+            ...state
         }
-   }
+    }
+
+    if (type === 'THEME_GET_SUCCESS' || type === 'THEME_SET_SUCCESS') {
+        return {
+            ...state,
+            themeMood: payload.theme
+        }
+    }
     return state;
 }

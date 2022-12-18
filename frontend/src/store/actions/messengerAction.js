@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FRIEND_GET_SUCCESS, MESSAGE_GET_SUCCESS, MESSAGE_SEND_SUCCESS } from "../types/messengerType";
+import { FRIEND_GET_SUCCESS, MESSAGE_GET_SUCCESS, MESSAGE_SEND_SUCCESS, THEME_GET_SUCCESS, THEME_SET_SUCCESS } from "../types/messengerType";
 export const getFriends = () => async (dispatch) => {
     try {
         const response = await axios.get('/api/messenger/get-friends');
@@ -82,4 +82,25 @@ export const updateMessage = (msg) => async (dispatch) => {
     } catch (error) {
         console.log(error.response.message)
     }
+}
+
+export const getTheme = () => async (dispatch) => {
+    const theme = localStorage.getItem('theme'); 
+    dispatch({
+        type: "THEME_GET_SUCCESS",
+        payload: {
+            theme: theme ? theme : 'white'
+        }
+    }) //if exists theme from local storage-> get it, else its normal mode called "white"
+}
+
+
+export const themeSet = (theme) => async (dispatch) => {
+    localStorage.setItem('theme', theme); //create/overwrite theme in localStorage
+    dispatch({
+        type: "THEME_SET_SUCCESS",
+        payload: {
+            theme: theme
+        }
+    }) 
 }

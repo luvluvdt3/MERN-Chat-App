@@ -22,7 +22,7 @@ const findFriend = (id) => { //find user in the online users list with the same 
     return users.find(u => u.userId === id); //if user is online then return his info, else return undefined
 }
 
-const userLogout = (userId) => {
+const userLogout = (userId) => { //when logged out -> be removed from the onl users list
     users = users.filter(u => u.userId !== userId)
 }
 

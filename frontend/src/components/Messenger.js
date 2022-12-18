@@ -4,7 +4,7 @@ import ActiveFriend from './ActiveFriend';
 import Friends from './Friends';
 import RightSide from './RightSide';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFriends, messageSend, getMessage, ImageMessageSend, seenMessage, updateMessage } from '../store/actions/messengerAction';
+import { getFriends, messageSend, getMessage, ImageMessageSend, seenMessage, updateMessage, getTheme, themeSet } from '../store/actions/messengerAction';
 import { io } from 'socket.io-client'
 import toast, { Toaster } from 'react-hot-toast';
 import useSound from 'use-sound';
@@ -20,7 +20,7 @@ const Messenger = () => {
     const [notificationSPlay] = useSound(notificationSound);
     const [sendingSPlay] = useSound(sendingSound);
 
-    const { friends, message, mesageSendSuccess, message_get_success } = useSelector(state => state.messenger);
+    const { friends, message, mesageSendSuccess, message_get_success, themeMood } = useSelector(state => state.messenger);
 
     const { myInfo } = useSelector(state => state.auth);
 
@@ -37,6 +37,10 @@ const Messenger = () => {
             setSocketMessage(data);
         })
     }, [])
+
+    useEffect(() => {
+        dispatch(getTheme());
+    }, []);
 
     //if receive message from an online friend while online -> save the message's infos into redux
     useEffect(() => {
@@ -268,7 +272,8 @@ const Messenger = () => {
     }
 
     return (
-        <div className='messenger'>
+        <div className={themeMood === 'dark' ? 'messenger theme' : 'messenger'}>
+            {/* if theme==dark then the whole stuff is in dark mode with class .messenger.theme , if not then just normal mode  */}
             <Toaster
                 position={'top-right'}
                 reverseOrder={false}
@@ -303,12 +308,15 @@ const Messenger = () => {
                                     <h3>Dark Mode </h3>
                                     <div className='on'>
                                         <label htmlFor='dark'>ON</label>
-                                        <input type="radio" value="dark" name="theme" id="dark" />
+                                        <input onChange={(e) => dispatch(themeSet(e.target.value))} type="radio" value="dark" name="theme" id="dark" />
+                                        {/* Turn on/off dark mode */}
+
                                     </div>
 
                                     <div className='of'>
                                         <label htmlFor='white'>OFF</label>
-                                        <input type="radio" value="white" name="theme" id="white" />
+                                        <input onChange={(e) => dispatch(themeSet(e.target.value))} type="radio" value="white" name="theme" id="white" />
+                                        {/* Turn on/off normal mode */}
                                     </div>
 
                                     <div onClick={logout} className='logout'>
