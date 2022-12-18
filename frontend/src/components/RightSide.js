@@ -6,7 +6,7 @@ import FriendInfo from './FriendInfo';
 
 // The remaining part of the screen except for the left part of friends list 
 const RightSide = (props) => {
-    const {currentfriend,inputHendle,newMessage,sendMessage,message,scrollRef,emojiSend,ImageSend,activeUser,typingMessage} = props;//can change message state of Messenger from this component
+    const { currentfriend, inputHendle, newMessage, sendMessage, message, scrollRef, emojiSend, ImageSend, activeUser, typingMessage } = props;//can change message state of Messenger from this component
     return (
         <div className='col-9'>
             <div className='right-side'>
@@ -51,7 +51,7 @@ const RightSide = (props) => {
                                 message={message}
                                 currentfriend={currentfriend}
                                 scrollRef={scrollRef}
-                                typingMessage = {typingMessage}
+                                typingMessage={typingMessage}
                             />
                             <MessageSend
                                 inputHendle={inputHendle}
@@ -64,7 +64,7 @@ const RightSide = (props) => {
                     </div>
 
                     <div className='col-4'>
-                        <FriendInfo currentfriend={currentfriend} activeUser={activeUser} />
+                        <FriendInfo message={message} currentfriend={currentfriend} activeUser={activeUser} />
                     </div>
 
 

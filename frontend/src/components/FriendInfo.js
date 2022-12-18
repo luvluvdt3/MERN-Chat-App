@@ -1,7 +1,8 @@
 import React from 'react';
 import { FaCaretSquareDown, FaEdit, FaSistrix } from "react-icons/fa";
 
-const FriendInfo = ({ currentfriend, activeUser }) => {
+//The hidden component hidden on the very right side, appear when click on the icon FaRocketchat in RightSide
+const FriendInfo = ({ currentfriend, activeUser, message }) => {
     return (
         <div className='friend-info'>
             <input type="checkbox" id='gallery' />
@@ -38,8 +39,10 @@ const FriendInfo = ({ currentfriend, activeUser }) => {
 
             {/* Shared Medias */}
             <div className='gallery'>
-                <img src='/image/photo.jpg' alt='' />
-                <img src='/image/photo.jpg' alt='' />
+                {
+                    message && message.length > 0 ? message.map((m, index) => m.message.image && <img key={index} src={`./image/${m.message.image}`} />) : ''
+                }
+                {/* All the images exchanged between current user and current friend */}
             </div>
 
         </div>
