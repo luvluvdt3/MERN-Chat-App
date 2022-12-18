@@ -142,7 +142,7 @@ module.exports.userLogin = async (req, res) => {
                 email: email
             }).select('+password'); //have to +password to include the crypted password in variable checkUser
             //console.log(checkUser) //print out in terminal the user's information 
-            
+
             if (checkUser) {
                 const matchPassword = await bcrypt.compare(password, checkUser.password); //check if the password entered is the same as the crypted password in the database
                 if (matchPassword) {
@@ -175,7 +175,7 @@ module.exports.userLogin = async (req, res) => {
                     }
                 })
             }
-//Can see the error or succes message in the Postman
+            //Can see the error or succes message in the Postman
 
         } catch {
             res.status(404).json({
@@ -186,7 +186,12 @@ module.exports.userLogin = async (req, res) => {
 
         }
     }
+}
 
+module.exports.userLogout = (req, res) => {
+    res.status(200).cookie('authToken', '').json({
+        success: true
+    }) //delete authToken from cookie
 }
 
 

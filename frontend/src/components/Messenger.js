@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { FaEllipsisH, FaEdit, FaSistrix } from "react-icons/fa";
+import { FaEllipsisH, FaEdit, FaSistrix, FaSignOutAlt } from "react-icons/fa";
 import ActiveFriend from './ActiveFriend';
 import Friends from './Friends';
 import RightSide from './RightSide';
@@ -10,6 +10,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import useSound from 'use-sound';
 import notificationSound from '../audio/notification.mp3';
 import sendingSound from '../audio/sending.mp3';
+import { userLogout } from '../store/actions/authAction';
 
 const Messenger = () => {
     const scrollRef = useRef();
@@ -115,10 +116,10 @@ const Messenger = () => {
 
         socket.current.on('seenSuccess', data => { //listen to seen message event from socket
             dispatch({
-                 type : 'SEEN_ALL',
-                 payload : data
+                type: 'SEEN_ALL',
+                payload: data
             })
-       })
+        })
     }, []);
 
     useEffect(() => { //everytime that receiver sees a new message
@@ -196,7 +197,7 @@ const Messenger = () => {
     useEffect(() => {
         dispatch(getMessage(currentfriend._id));
         if (friends.length > 0) { //if this user has friend
-           
+
         }
     }, [currentfriend?._id]); //will get updated automatically every time current friend changes (I love u, useEffect)
 
@@ -259,6 +260,12 @@ const Messenger = () => {
             dispatch(ImageMessageSend(formData));
         }
     }
+    const [hide, setHide] = useState(true);
+
+    const logout = () => {
+        dispatch(userLogout());
+        socket.current.emit('logout', myInfo.id);
+    }
 
     return (
         <div className='messenger'>
@@ -286,11 +293,30 @@ const Messenger = () => {
                             </div>
 
                             <div className='icons'>
-                                <div className='icon'>
+                                <div onClick={() => setHide(!hide)} className='icon'>
                                     <FaEllipsisH />
                                 </div>
                                 <div className='icon'>
                                     <FaEdit />
+                                </div>
+                                <div className={hide ? 'theme_logout' : 'theme_logout show'}>
+                                    <h3>Dark Mode </h3>
+                                    <div className='on'>
+                                        <label htmlFor='dark'>ON</label>
+                                        <input type="radio" value="dark" name="theme" id="dark" />
+                                    </div>
+
+                                    <div className='of'>
+                                        <label htmlFor='white'>OFF</label>
+                                        <input type="radio" value="white" name="theme" id="white" />
+                                    </div>
+
+                                    <div onClick={logout} className='logout'>
+                                        <FaSignOutAlt /> Logout
+                                    </div>
+
+
+
                                 </div>
                             </div>
                         </div>
@@ -314,7 +340,7 @@ const Messenger = () => {
                             {
                                 friends && friends.length > 0 ? friends.map((fd) => <div onClick={() => setCurrentFriend(fd.fndInfo)} className={currentfriend._id === fd.fndInfo._id ? 'hover-friend active' : 'hover-friend'}>
                                     {/* if is current friend that user is looking at -> class=hover-friend-active. which gives it gray background */}
-                                    <Friends myId={myInfo.id} friend={fd} activeUser= {activeUser}/>
+                                    <Friends myId={myInfo.id} friend={fd} activeUser={activeUser} />
                                 </div>) : 'No Friend'
                             }
                             {/* If there is friend then show them though component Friends, if not show text "No Friend" */}

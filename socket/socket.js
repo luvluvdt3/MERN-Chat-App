@@ -22,6 +22,10 @@ const findFriend = (id) => { //find user in the online users list with the same 
     return users.find(u => u.userId === id); //if user is online then return his info, else return undefined
 }
 
+const userLogout = (userId) => {
+    users = users.filter(u => u.userId !== userId)
+}
+
 io.on('connection', (socket) => {
     console.log('Socket is connecting...')
     //receive the newly online user's info sent by frontend
@@ -54,12 +58,12 @@ io.on('connection', (socket) => {
         }
     })
 
-    socket.on('delivaredMessage',msg =>{
-        const user = findFriend(msg.senderId);          
-        if(user !== undefined){
-             socket.to(user.socketId).emit('msgDelivaredResponse', msg)
-        }          
-   })
+    socket.on('delivaredMessage', msg => {
+        const user = findFriend(msg.senderId);
+        if (user !== undefined) {
+            socket.to(user.socketId).emit('msgDelivaredResponse', msg)
+        }
+    })
 
     //for typing '...' event
     socket.on('typingMessage', (data) => { //when receive event named typingMessage from the frontend
@@ -74,12 +78,14 @@ io.on('connection', (socket) => {
         }
     })
 
-    socket.on('seen',data =>{ //custom event when a message is read -> update status in sender's side
-        const user = findFriend(data.senderId);          
-        if(user !== undefined){
-             socket.to(user.socketId).emit('seenSuccess', data) //send to sender's socket seen message info to update the icon status delivared->seen in real time
-        } 
-   })
+    socket.on('seen', data => { //custom event when a message is read -> update status in sender's side
+        const user = findFriend(data.senderId);
+        if (user !== undefined) {
+            socket.to(user.socketId).emit('seenSuccess', data) //send to sender's socket seen message info to update the icon status delivared->seen in real time
+        }
+    })
 
-
+    socket.on('logout', userId => {
+        userLogout(userId);
+    })
 })
