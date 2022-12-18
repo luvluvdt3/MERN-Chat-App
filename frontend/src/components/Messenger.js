@@ -271,6 +271,19 @@ const Messenger = () => {
         socket.current.emit('logout', myInfo.id);
     }
 
+    const search = (e) => {
+        const getFriendClass = document.getElementsByClassName('hover-friend'); //get all the container of each friend in the friends list (which contains child component Friends)
+        const frienNameClass = document.getElementsByClassName('Fd_name'); //get the containers of all friends names div (can be found in child component Friends)
+        for (var i = 0; i < getFriendClass.length, i < frienNameClass.length; i++) {
+            let text = frienNameClass[i].innerText.toLowerCase();
+            if (text.indexOf(e.target.value.toLowerCase()) > -1) {
+                getFriendClass[i].style.display = '';
+            } else {
+                getFriendClass[i].style.display = 'none';
+            }
+        }//loop through every container in friends list, if the name of the friend matchs value of event(input of friend search) then still display it, else then not displayed
+    }
+
     return (
         <div className={themeMood === 'dark' ? 'messenger theme' : 'messenger'}>
             {/* if theme==dark then the whole stuff is in dark mode with class .messenger.theme , if not then just normal mode  */}
@@ -332,7 +345,7 @@ const Messenger = () => {
                         <div className='friend-search'>
                             <div className='search'>
                                 <button> <FaSistrix /> </button>
-                                <input type="text" placeholder='Search' className='form-control' />
+                                <input onChange={search} type="text" placeholder='Search' className='form-control' />
                             </div>
                         </div>
 

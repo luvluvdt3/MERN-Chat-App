@@ -23,19 +23,19 @@ const Friends = (props) => {
 
             <div className='friend-name-seen'>
                 <div className='friend-name'>
-                    <h4 className={msgInfo?.senderId !== myId && msgInfo?.status !== undefined && msgInfo.status !== 'seen' ? 'unseen_message ' : ''} >{fndInfo.userName}</h4>
+                    <h4 className={msgInfo?.senderId !== myId && msgInfo?.status !== undefined && msgInfo.status !== 'seen' ? 'unseen_message Fd_name ' : 'Fd_name'} >{fndInfo.userName}</h4>
                     {/* if there is a new unread message from a friend-> the friend's name would be in bold (unseen_message css) */}
 
                     <div className='msg-time'>
                         {
-                            msgInfo && msgInfo.senderId === myId ? <span>You: </span> : <span className={ msgInfo?.senderId !== myId && msgInfo?.status !== undefined && msgInfo.status !== 'seen'?'unseen_message ' : '' }> {fndInfo.userName + ': '} </span>
+                            msgInfo && msgInfo.senderId === myId ? <span>You: </span> : <span className={msgInfo?.senderId !== myId && msgInfo?.status !== undefined && msgInfo.status !== 'seen' ? 'unseen_message ' : ''}> {fndInfo.userName + ': '} </span>
                         }
-        
+
                         {
-                            msgInfo && msgInfo.message.text ? <span className={ msgInfo?.senderId !== myId && msgInfo?.status !== undefined && msgInfo.status !== 'seen'?'unseen_message ' : '' }>{msgInfo.message.text.slice(0, 10)}</span> : msgInfo && msgInfo.message.image ? <span>Sent An Image </span> : <span>Connected To You </span>
+                            msgInfo && msgInfo.message.text ? <span className={msgInfo?.senderId !== myId && msgInfo?.status !== undefined && msgInfo.status !== 'seen' ? 'unseen_message ' : ''}>{msgInfo.message.text.slice(0, 10)}</span> : msgInfo && msgInfo.message.image ? <span>Sent An Image </span> : <span>Connected To You </span>
                         }
                         {/* Message's Content */}
-                        <br/>
+                        <br />
 
                         <span>{msgInfo ? moment(msgInfo.createdAt).startOf('mini').fromNow() : moment(fndInfo.createdAt).startOf('mini').fromNow()}</span>
                         {/* Message's Time (ex: 2 hours ago)  */}
