@@ -2,9 +2,13 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { FaRegCheckCircle } from "react-icons/fa";
+import mediumZoom from 'medium-zoom'
+import ImageZoom from './ImageZoom';
 
 const Message = ({ message, currentfriend, scrollRef, typingMessage }) => {
     const { myInfo } = useSelector(state => state.auth);
+    const zoom = React.useRef(mediumZoom());
+
     return (
         <>
             <div className='message-show'>
@@ -14,7 +18,13 @@ const Message = ({ message, currentfriend, scrollRef, typingMessage }) => {
                         m.senderId === myInfo.id ? <div ref={scrollRef} className='my-message'>
                             <div className='image-message'>
                                 <div className='my-text'>
-                                    <p className='message-text'> {m.message.text === '' ? <img src={`./image/${m.message.image}`} /> : m.message.text} </p>
+                                    <p className='message-text'> {m.message.text === '' ?
+                                        <ImageZoom
+                                            src={`./image/${m.message.image}`}
+                                            zoom={zoom.current}
+                                            background="#000"
+                                            alt=''
+                                        /> : m.message.text} </p>
                                     {/* If message is text then display the text, if not, show the photo message getting from the Redux state*/}
                                     {
                                         index === message.length - 1 && m.senderId === myInfo.id ? m.status === 'seen' ? <img className='img' src={`./image/${currentfriend.image}`} alt='' /> : m.status === 'delivared' ? <span> <FaRegCheckCircle /> </span> : <span> <FaRegCheckCircle /> </span> : ''
@@ -32,7 +42,13 @@ const Message = ({ message, currentfriend, scrollRef, typingMessage }) => {
                                     <img src={`./image/${currentfriend.image}`} alt='' />
                                     <div className='message-time'>
                                         <div className='fd-text'>
-                                            <p className='message-text'> {m.message.text === '' ? <img src={`./image/${m.message.image}`} /> : m.message.text} </p>
+                                            <p className='message-text'> {m.message.text === '' ?
+                                                <ImageZoom
+                                                    src={`./image/${m.message.image}`}
+                                                    zoom={zoom.current}
+                                                    background="#000"
+                                                    alt=''
+                                                /> : m.message.text} </p>
                                         </div>
                                         <div className='time'>
                                             {moment(m.createdAt).startOf('mini').fromNow()}

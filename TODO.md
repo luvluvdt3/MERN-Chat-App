@@ -2,7 +2,7 @@
 
 - Be able to SPACE in messages
 
-- Full photo display when clicking on photo messages
+- Improve Image's Zoom (Prob: father containers of the ImageZoom)
 
 - Long message cant go over the limit and go down automotically lol
 
