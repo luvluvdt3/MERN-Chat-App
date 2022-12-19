@@ -20,7 +20,7 @@ const Messenger = () => {
     const [notificationSPlay] = useSound(notificationSound);
     const [sendingSPlay] = useSound(sendingSound);
 
-    const {friends,message,mesageSendSuccess,message_get_success,themeMood,new_user_add} = useSelector(state => state.messenger );
+    const { friends, message, mesageSendSuccess, message_get_success, themeMood, new_user_add } = useSelector(state => state.messenger);
 
     const { myInfo } = useSelector(state => state.auth);
 
@@ -126,14 +126,14 @@ const Messenger = () => {
         })
 
         //listens to event called new_user_add from socket
-        socket.current.on('new_user_add',data => {
+        socket.current.on('new_user_add', data => {
             dispatch({
-                 type : 'NEW_USER_ADD',
-                 payload : {
-                      new_user_add : data
-                 }
+                type: 'NEW_USER_ADD',
+                payload: {
+                    new_user_add: data
+                }
             })
-       })
+        })
     }, []);
 
     useEffect(() => { //everytime that receiver sees a new message
@@ -200,8 +200,8 @@ const Messenger = () => {
 
     useEffect(() => {
         dispatch(getFriends()); //execute the function
-        dispatch({type:'NEW_USER_ADD_CLEAR'})
-    },[new_user_add]); //every time new_user_add changes(meaning the socket triggered the event of newly registered user just logged in) -> reload the friends list then empty new_user_add state 
+        dispatch({ type: 'NEW_USER_ADD_CLEAR' })
+    }, [new_user_add]); //every time new_user_add changes(meaning the socket triggered the event of newly registered user just logged in) -> reload the friends list then empty new_user_add state 
 
     useEffect(() => { //can have more than 1 useEffect
         if (friends && friends.length > 0)
@@ -264,6 +264,33 @@ const Messenger = () => {
             dispatch(ImageMessageSend(formData));
         }
     }
+
+    const GIFSend = (e) => {
+        sendingSPlay();
+        //   'https://media.giphy.com/media/' + id + 'giphy.gif'               
+        const imagename = 'https://media.giphy.com/media/'+e.id+'/giphy.gif';
+        console.log(imagename);
+        //send Image in reel time to socket
+        socket.current.emit('sendMessage', {
+            senderId: myInfo.id,
+            senderName: myInfo.userName,
+            reseverId: currentfriend._id,
+            time: new Date(),
+            message: {
+                text: '',
+                image: imagename
+            }
+        })
+
+        const formData = new FormData();
+
+        formData.append('senderName', myInfo.userName);
+        formData.append('imageName', imagename);
+        formData.append('reseverId', currentfriend._id);
+        formData.append('image', imagename);
+        dispatch(ImageMessageSend(formData));
+    }
+
     const [hide, setHide] = useState(true);
 
     const logout = () => {
@@ -380,6 +407,7 @@ const Messenger = () => {
                         ImageSend={ImageSend}
                         activeUser={activeUser}
                         typingMessage={typingMessage}
+                        GIFSend={GIFSend}
                     /> : 'Please Select your Friend'
                 }
                 {/* if not choose a friend yet then display "Plese Select Ur Friend" else: display RightSide*/}

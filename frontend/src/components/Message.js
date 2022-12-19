@@ -20,7 +20,7 @@ const Message = ({ message, currentfriend, scrollRef, typingMessage }) => {
                                 <div className='my-text'>
                                     <p className='message-text'> {m.message.text === '' ?
                                         <ImageZoom
-                                            src={`./image/${m.message.image}`}
+                                            src={!m.message.image.includes('/giphy.gif')?`./image/${m.message.image}`:`${m.message.image}`}
                                             zoom={zoom.current}
                                             background="#000"
                                             alt=''

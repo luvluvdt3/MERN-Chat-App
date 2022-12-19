@@ -28,6 +28,8 @@
 
 - Send attachment option
 
+- Beautify Theme Selection
+
 
 
 

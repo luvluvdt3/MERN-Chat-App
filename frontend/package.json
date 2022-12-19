@@ -16,6 +16,7 @@
     "react-alert": "^7.0.3",
     "react-alert-template-basic": "^1.0.2",
     "react-dom": "^18.2.0",
+    "react-giphy-searchbox": "^1.5.4",
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.4.0",
     "react-input-emoji": "^4.3.0",

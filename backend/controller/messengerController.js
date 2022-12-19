@@ -164,7 +164,7 @@ module.exports.ImageMessageSend = (req, res) => {
      const senderId = req.myId;
      const form = formidable();
 
-     form.parse(req, (err, fields, files) => {
+     form.parse(req, async(err, fields, files) => {
           console.log(fields) //senderName, imagename,receiverId
           console.log(files) //image: lastModifiedDate, filepath, newFilename, originalFilename,mimetype,...
           const {
@@ -172,42 +172,68 @@ module.exports.ImageMessageSend = (req, res) => {
                reseverId,
                imageName
           } = fields;
+          if (!imageName.includes('/giphy.gif')) {
+               const newPath = __dirname + `../../../frontend/public/image/${imageName}` //imageName from the fields
+               files.image.originalFilename = imageName;
 
-          const newPath = __dirname + `../../../frontend/public/image/${imageName}` //imageName from the fields
-          files.image.originalFilename = imageName;
-
-          //store image in the database:
-          try {
-               fs.copyFile(files.image.filepath, newPath, async (err) => {
-                    if (err) {
-                         res.status(500).json({
-                              error: {
-                                   errorMessage: 'Image upload fail'
-                              }
-                         })
-                    } else {
-                         const insertMessage = await messageModel.create({
-                              senderId: senderId,
-                              senderName: senderName,
-                              reseverId: reseverId,
-                              message: {
-                                   text: '',
-                                   image: files.image.originalFilename
-                              }
-                         })
-                         res.status(201).json({
-                              success: true,
-                              message: insertMessage
-                         })
-                    }
-               })
-          } catch (error) {
-               res.status(500).json({
-                    error: {
-                         errorMessage: 'Internal Sever Error'
-                    }
-               })
+               //store image in the database:
+               try {
+                    fs.copyFile(files.image.filepath, newPath, async (err) => {
+                         if (err) {
+                              res.status(500).json({
+                                   error: {
+                                        errorMessage: 'Image upload fail'
+                                   }
+                              })
+                         } else {
+                              const insertMessage = await messageModel.create({
+                                   senderId: senderId,
+                                   senderName: senderName,
+                                   reseverId: reseverId,
+                                   message: {
+                                        text: '',
+                                        image: files.image.originalFilename
+                                   }
+                              })
+                              res.status(201).json({
+                                   success: true,
+                                   message: insertMessage
+                              })
+                         }
+                    })
+               } catch (error) {
+                    res.status(500).json({
+                         error: {
+                              errorMessage: 'Internal Sever Error'
+                         }
+                    })
+               }
           }
+          else {
+               try {
+                    const insertMessage = await messageModel.create({
+                         senderId: senderId,
+                         senderName: senderName,
+                         reseverId: reseverId,
+                         message: {
+                              text: '',
+                              image: imageName
+                         }
+                    })
+                    res.status(201).json({
+                         success: true,
+                         message: insertMessage
+                    })
+               }
+               catch (error) {
+                    res.status(500).json({
+                         error: {
+                              errorMessage: 'Internal Server Error'
+                         }
+                    })
+               }
+          }
+
      })
 }
 
@@ -237,7 +263,7 @@ module.exports.delivaredMessage = async (req, res) => {
      const messageId = req.body._id;
 
      await messageModel.findByIdAndUpdate(messageId, {
-          status: 'delivared' 
+          status: 'delivared'
      })
           .then(() => {
                res.status(200).json({
