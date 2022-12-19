@@ -34,6 +34,14 @@ io.on('connection', (socket) => {
         //console.log(userInfo) //da same but with every infos 
         addUser(userId, socket.id, userInfo);
         io.emit('getUser', users); //send the new list of onl users back to frontend
+
+
+        //when a newly registered user logs in for da first time-> send event to all other users to update the users list
+        const us = users.filter(u=>u.userId !== userId);//the list without the current user 
+        const con = 'new_user_add';
+        for(var i = 0; i <us.length; i++ ){
+             socket.to(us[i].socketId).emit('new_user_add',con);
+        }
     })
 
     socket.on('disconnect', () => {
