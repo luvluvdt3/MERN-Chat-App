@@ -89,7 +89,7 @@ export const getTheme = () => async (dispatch) => {
     dispatch({
         type: "THEME_GET_SUCCESS",
         payload: {
-            theme: theme ? theme : 'white'
+            theme: theme ? theme : 'light'
         }
     }) //if exists theme from local storage-> get it, else its normal mode called "white"
 }

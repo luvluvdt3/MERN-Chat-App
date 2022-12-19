@@ -1,7 +1,5 @@
 - Prettier photo in round (see ancien project)
 
-- Be able to SPACE in messages
-
 - Improve Image's Zoom (Prob: father containers of the ImageZoom)
 
 - Long message cant go over the limit and go down automotically lol
@@ -9,8 +7,6 @@
 - Redo the page with templates used in Donaso
 
 - Onl users list in-line way and scrollable like before (67?) 
-
-- Enter to send message
 
 - Change sound efffects
 
@@ -31,6 +27,8 @@
 - Write Message Button -> choose receiver and write message
 
 - Send attachment option
+
+
 
 
 

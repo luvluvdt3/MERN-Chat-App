@@ -1,17 +1,8 @@
 import React from 'react';
 import { FaPlusCircle, FaFileImage, FaGift, FaPaperPlane } from "react-icons/fa";
+import InputEmoji from "react-input-emoji";
 
-const MessageSend = ({inputHendle,newMessage,sendMessage,emojiSend,ImageSend}) => {
-    const emojis = [
-        '😀', '😃', '😄', '😁',
-        '😆', '😅', '😂', '🤣',
-        '😊', '😇', '🙂', '🙃',
-        '😉', '😌', '😍', '😝',
-        '😜', '🧐', '🤓', '😎',
-        '😕', '🤑', '🥴', '😱'
-    ]
-
-
+const MessageSend = ({ inputHendle, newMessage, sendMessage, emojiSend, ImageSend, themeMood}) => {
     return (
 
         <div className='message-send-section'>
@@ -28,7 +19,7 @@ const MessageSend = ({inputHendle,newMessage,sendMessage,emojiSend,ImageSend}) =
                     Add Image
                 </div>
                 {/* Input for pic, which is supported by label htmlFor pic down here */}
-                <input onChange={ImageSend} type="file" id="pic" className='form-control' /> 
+                <input onChange={ImageSend} type="file" id="pic" className='form-control' />
 
                 <label htmlFor='pic'> <FaFileImage /> </label>
             </div>
@@ -41,28 +32,20 @@ const MessageSend = ({inputHendle,newMessage,sendMessage,emojiSend,ImageSend}) =
             </div>
 
             <div className='message-type'>
-            <input type="text" onChange={inputHendle} name='message' id='message' placeholder='Aa' className='form-control' value={newMessage}/>
-
-                <div className='file hover-gift'>
-                    <label htmlFor='emoji'> ❤ </label>
-                </div>
+                <InputEmoji
+                    value={newMessage}
+                    onChange={(e)=>inputHendle(e)}
+                    placeholder="Type a message"
+                    onEnter={()=>sendMessage()}
+                    name='message' id='message' className='form-control'
+                    theme = {themeMood}
+                    borderColor="#a189f0"
+                />
             </div>
 
             <div onClick={sendMessage} className='file'>
-            <FaPaperPlane />
+                <FaPaperPlane />
             </div>
-
-            <div className='emoji-section'>
-                <div className='emoji'>
-                    {
-                       emojis.map(e => <span onClick={()=>emojiSend(e)} >{e}</span>)
-                    }
-
-                </div>
-
-            </div>
-
-
         </div>
 
     )
