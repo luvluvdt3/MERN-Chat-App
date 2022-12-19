@@ -155,17 +155,16 @@ const Messenger = () => {
     }, [message_get_success]);
 
     const inputHendle = (e) => {
-        setNewMessage(e.target.value);
+        setNewMessage(e);
         //send event of typing message to the socket 
         socket.current.emit('typingMessage', {
             senderId: myInfo.id,
             reseverId: currentfriend._id,
-            msg: e.target.value
+            msg: e
         })
     }
 
-    const sendMessage = (e) => {
-        e.preventDefault();
+    const sendMessage = () => {
         // console.log(newMessage);
         sendingSPlay();
         const data = {
@@ -237,16 +236,6 @@ const Messenger = () => {
             })
         }
     }, [socketMessage]);
-
-    const emojiSend = (emu) => {
-        setNewMessage(`${newMessage}` + emu);
-        //to also count picking emojis as typing message
-        socket.current.emit('typingMessage', {
-            senderId: myInfo.id,
-            reseverId: currentfriend._id,
-            msg: emu
-        })
-    }
 
     const ImageSend = (e) => {
         if (e.target.files.length !== 0) {
@@ -388,7 +377,6 @@ const Messenger = () => {
                         sendMessage={sendMessage}
                         message={message}
                         scrollRef={scrollRef}
-                        emojiSend={emojiSend}
                         ImageSend={ImageSend}
                         activeUser={activeUser}
                         typingMessage={typingMessage}
