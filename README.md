@@ -5,7 +5,7 @@
 - MongoDB
 
 ## Quick Start
-npm run dev
-cd .\socket\
-npm run socket
+- npm run dev
+- cd .\socket\
+- npm run socket
 
