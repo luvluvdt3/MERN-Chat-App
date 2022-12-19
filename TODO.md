@@ -32,7 +32,6 @@
 
 - Send attachment option
 
-- Combine command npm run dev + npm run socket
 
 
 
