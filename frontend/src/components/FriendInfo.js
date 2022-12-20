@@ -1,8 +1,12 @@
 import React from 'react';
 import { FaCaretSquareDown, FaEdit, FaSistrix } from "react-icons/fa";
+import ImageZoom from './ImageZoom';
+import mediumZoom from 'medium-zoom'
+
 
 //The hidden component hidden on the very right side, appear when click on the icon FaRocketchat in RightSide
 const FriendInfo = ({ currentfriend, activeUser, message }) => {
+    const zoom = React.useRef(mediumZoom());
     return (
         <div className='friend-info'>
             <input type="checkbox" id='gallery' />
@@ -40,7 +44,12 @@ const FriendInfo = ({ currentfriend, activeUser, message }) => {
             {/* Shared Medias */}
             <div className='gallery'>
                 {
-                    message && message.length > 0 ? message.map((m, index) => m.message.image && <img key={index} src={`./image/${m.message.image}`} />) : ''
+                    message && message.length > 0 ? message.map((m, index) => m.message.image && <ImageZoom key={index}
+                        src={!m.message.image.includes('/giphy.gif') ? `./image/${m.message.image}` : `${m.message.image}`}
+                        zoom={zoom.current}
+                        background="#000"
+                        alt=''
+                    />) : ''
                 }
                 {/* All the images exchanged between current user and current friend */}
             </div>

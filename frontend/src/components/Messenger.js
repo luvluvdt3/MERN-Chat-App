@@ -269,7 +269,6 @@ const Messenger = () => {
         sendingSPlay();
         //   'https://media.giphy.com/media/' + id + 'giphy.gif'               
         const imagename = 'https://media.giphy.com/media/'+e.id+'/giphy.gif';
-        console.log(imagename);
         //send Image in reel time to socket
         socket.current.emit('sendMessage', {
             senderId: myInfo.id,

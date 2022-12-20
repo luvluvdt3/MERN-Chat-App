@@ -2,11 +2,9 @@
 
 - Improve Image's Zoom (Prob: father containers of the ImageZoom)
 
-- Long message cant go over the limit and go down automotically lol
+- Long 1-word-message cant go over the limit and go down automotically lol
 
 - Redo the page with templates used in Donaso
-
-- Onl users list in-line way and scrollable like before (67?) 
 
 - Change sound efffects
 
@@ -20,16 +18,15 @@
 
 - Call / Video Call
 
-- More options of emojis + GIFs?
-
 - Reaction on message
 
 - Write Message Button -> choose receiver and write message
 
-- Send attachment option
+- Send attachment option (Combine it with image?) + Drag&Drop
 
 - Beautify Theme Selection
 
+- Bug: On Image zoom still have the type message box lol
 
 
 

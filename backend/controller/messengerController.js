@@ -172,7 +172,7 @@ module.exports.ImageMessageSend = (req, res) => {
                reseverId,
                imageName
           } = fields;
-          if (!imageName.includes('/giphy.gif')) {
+          if (!imageName.includes('/giphy.gif')) { //if is normal photo
                const newPath = __dirname + `../../../frontend/public/image/${imageName}` //imageName from the fields
                files.image.originalFilename = imageName;
 
@@ -209,7 +209,7 @@ module.exports.ImageMessageSend = (req, res) => {
                     })
                }
           }
-          else {
+          else { //if it GIF link from Giphy
                try {
                     const insertMessage = await messageModel.create({
                          senderId: senderId,
